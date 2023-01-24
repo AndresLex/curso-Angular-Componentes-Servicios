@@ -1,0 +1,27 @@
+<p>
+  Cantidad:{{ myShoppingCart.length }}
+</p>
+<p>
+  Total: {{ total }}
+</p>
+<p>
+  Today: {{ today | date: 'full' }}
+</p>
+<p>
+  TimeAgo: {{ date | timeAgo }}
+</p>
+<p>
+  Otra Fecha: {{ date | date: 'dd-MM-yyyy' }}
+</p>
+<p>
+  {{ 'a AA a EjEmplO cOn UpperCaSE aAaA' | uppercase | vocalANumber}}
+</p>
+<br>
+
+<div class="contai-product-grid">
+  <app-product
+    [product]="product"
+    *ngFor="let product of products"
+    (addedProduct)="onAddToShoppingCart($event)"
+  ></app-product>
+</div>

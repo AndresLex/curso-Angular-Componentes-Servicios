@@ -1,0 +1,93 @@
+¿QUÉ SON LOS COMPONENTES?
+
+Un componente tiene responsabilidades unicas, estructura propia con estilos apropiados.
+Componentes generado tiene los siguientes archivos:
+-> todo.component.html
+-> todo.component.css
+-> todo.component.spec.ts (pruebas en angular)
+-> todo.component.ts
+
+Comando para crear un componente
+-> ng g c name_component
+
+Crear componente sin estilos
+-> ng g c componentes/name_component -is
+
+Crear componente sin archivos de testing
+-> ng g c componentes/img --skip-tests
+
+
+¿Qué son los componentes?
+En Angular, los componentes son una de las principales piezas de la arquitectura del framework. 
+Un componente es un bloque de código reutilizable que se encarga de una tarea específica en una aplicación. 
+Cada componente tiene su propia vista y lógica de negocio, y puede ser utilizado en diferentes partes de la aplicación.
+
+Un componente consta de tres partes principales:
+
+Una plantilla HTML que define la vista del componente y cómo se verá en la pantalla.
+Un archivo TypeScript que contiene la lógica de negocio del componente, como métodos y propiedades.
+Un archivo de estilo CSS opcional que aplica estilos a la vista del componente.
+Para crear un componente en Angular, primero debes definir una clase TypeScript con una decoración @Component. Esto le dice a Angular que esta clase es un componente y le proporciona información sobre cómo debe ser utilizado. 
+A continuación, puedes utilizar la plantilla HTML y el archivo de estilo CSS para definir la apariencia y la funcionalidad del componente.
+
+Los componentes son muy útiles para dividir una aplicación en partes más pequeñas y manejables, y para reutilizar código a través de la aplicación.
+
+
+Un componente es una pieza de software con una responsabilidad única y una estructura y funcionalidad determinada, además de ser reutilizable.
+
+Es una manera de dividir tu aplicación de una forma escalable para no tener todo en un solo archivo. Por ejemplo, un componente para el header, otro para el footer, uno más para el menú, etc.
+
+Componentes en Angular
+Puedes crear tu primer componente en Angular utilizando el comando ng generate component test-name o en su forma corta ng g c test-name.
+
+Esta acción creará los siguientes archivos:
+
+my-test-name.component.html
+my-test-name.component.ts
+my-test-name.component.css
+my-test-name.component.spec.ts
+El archivo .html que será el template que tu componente utilizará.
+El archivo .ts que contiene el código TypeScript y la lógica.
+El archivo .css que contiene los estilos.
+Si escogiste trabajar con un preprocesador de CSS, este archivo puede ser .scss, .sass o .less.
+Finalmente, el archivo más extraño, .spec.ts que contiene el código de las pruebas unitarias que puedes escribir para automatizar el testing en tu componente.
+
+Angular también importará automáticamente el componente creado en el archivo app.module.ts para que automáticamente puedas utilizarlo en tu aplicación.
+
+...
+import { TestNameComponent } from './test-name/test-name.component';
+
+@NgModule({
+  declarations: [
+    ...
+    TestNameComponent
+  ],
+  imports: [ ... ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+Partes de un componente Angular
+El archivo con la extensión .ts es el componente principal de cualquier Angular.
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-test-name',
+  templateUrl: './test-name.component.html',
+  styleUrls: ['./test-name.component.scss']
+})
+export class TestNameComponent {
+    ...
+}
+
+Observa lo más importante, el decorador @Component().
+
+Los decoradores alteran el comportamiento de una clase en Angular, para que el compilador de TypeScript interprete el código de la manera correcta y sepa que una clase es:
+
+un componente,
+un módulo,
+un servicio,
+una directiva, etc.
+Este decorador es quién enlaza el componente con el archivo HTML y la hoja de estilos, además le otorga al componente un selector o un nombre para utilizarlo en tus templates.

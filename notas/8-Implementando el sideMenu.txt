@@ -1,0 +1,127 @@
+Implementando el sideMenu
+
+A la hora de implementar el sideMenu recuerda siempre la importancia de que una aplicación web sea responsive para que pueda adaptarse a cualquier dispositivo, ya sea un celular, una tablet o un ordenador.
+
+Menú mobile
+Utilizando el estado de los componentes de Angular, podrás mostrar un menú lateral solo en dispositivos pequeños.
+
+Paso 1: Comienza dividiendo tu <header> adaptándolo con CSS para mostrar u ocultar elementos dependiendo el tamaño del dispositivo:
+
+<!-- components/nav-bar/nav-bar.component.html -->
+<header class="header">
+    <div class="d-flex-mobile">
+        <a href="#" class="logo">CompanyLogo</a>
+        <div class="show-side-menu">
+            <app-side-bar></app-side-bar>
+        </div>
+    </div>
+    <div class="header-right hidde-menu">
+        <a href="#">Home</a>
+        <a class="active" href="#">Catalogo</a>
+        <a href="#">About</a>
+    </div>
+</header>
+/* components/nav-bar/nav-bar.component.scss */
+.header {
+  /* ... */
+  .show-side-menu {
+    display: none;
+  }
+}
+
+/* Header Mobile */
+@media screen and (max-width: 512px) {
+  /* ... */
+  .d-flex-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .show-side-menu {
+    display: block;
+  }
+  .hidde-menu {
+    display: none;
+  }
+}
+Paso 2: Crea el componente que será la barra de navegación lateral:
+
+// components/side-bar/side-bar.component.ts
+@Component({
+  selector: 'app-side-bar',
+  templateUrl: './side-bar.component.html',
+  styleUrls: ['./side-bar.component.scss']
+})
+export class SideBarComponent {
+
+  public showMenu = false;
+
+  toggleSideBar(): void {
+    this.showMenu = !this.showMenu;
+  }
+
+}
+<!-- components/side-bar/side-bar.component.html -->
+<div id="main">
+    <button class="openbtn" (click)="toggleSideBar()">☰</button>
+</div>
+<div id="mySidebar" class="sidebar" [ngClass]="this.showMenu ? 'showMenu' : ''">
+    <a href="javascript:void(0)" class="closebtn" (click)="toggleSideBar()">×</a>
+    <a href="#">Home</a>
+    <a class="active" href="#">Catalogo</a>
+    <a href="#">About</a>
+</div>
+/* components/side-bar/side-bar.component.scss */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #f1f1f1;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: 0 3px 6px #00000029;
+
+  a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+  }
+  .active, a:hover {
+    color: #98ca3f;
+  }
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+}
+.openbtn {
+  cursor: pointer;
+  font-size: 20px;
+  color: black;
+  background-color: #f1f1f1;
+  padding: 10px 15px 15px 15px;
+  border: none;
+}
+#main {
+  transition: margin-left .5s;
+  padding: 12px;
+}
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+.showMenu {
+  width: 250px;
+}
+
+Paso 3: Fíjate en la función toggleSideBar() que activará o desactivará el menú lateral al hacer clic en el botón.

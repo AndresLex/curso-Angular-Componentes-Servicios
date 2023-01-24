@@ -1,0 +1,7 @@
+<div class="container-product">
+  <h2>{{ product.title | vocalANumber}}</h2>
+  <app-img [img]="product.image"></app-img>
+  <h3>$ {{ product.price | currency: 'COP' }}</h3>
+  <p appHighlight>{{ product.description }}</p>
+  <button (click)="onAddToCart()">Add Cart</button>
+</div>

@@ -1,0 +1,69 @@
+Conociendo los servicios
+
+Un servicio es la forma que utiliza Angular para modular una aplicación y crear código reutilizable, este tendrá una determinada lógica de negocio que puede ser usada por varios componentes u otros servicios.
+
+Tu primer servicio
+Con el CLI de Angular, crea un servicio fácilmente con el comando ng generate service test-name o en su manera corta ng g s test-name. Dicho comando creará dos archivos:
+
+test-name.service.ts
+test-name.service.spec.ts
+Siendo el archivo .ts el servicio en sí y el archivo .spec.ts el que podrás usar para escribir pruebas unitarias para testear el servicio.
+
+El servicio tendrá por defecto el siguiente código:
+
+            import { Injectable } from '@angular/core';
+            @Injectable({
+            providedIn: 'root'
+            })
+            export class TestNameService {
+            constructor() { }
+            }
+
+Haz visto anteriormente los decoradores en Angular. Así como los componentes usan el decorador @Component(), los servicios utilizan @Injectable().
+
+Utilizando un servicio
+Paso 1: Agrégale al servicio algo de lógica, por ejemplo, una variable con un determinado valor para ser leído a través de un método:
+
+            import { Injectable } from '@angular/core';
+            @Injectable({
+            providedIn: 'root'
+            })
+            export class TestNameService {
+            private testName = 'Hola Platzi';
+
+            constructor() { }
+            
+            getTestName(): string {
+                return this.testName;
+            }
+            }
+
+Paso 2: Luego, importa en un componente el servicio de la siguiente manera:
+
+            // components/catalogo/catalogo.component.ts
+            import { TestNameService } from 'src/app/services/test-name.service';
+
+            @Component({
+            selector: 'app-catalogo',
+            templateUrl: './catalogo.component.html',
+            styleUrls: ['./catalogo.component.scss']
+            })
+            export class CatalogoComponent implements OnInit {
+
+            // ...
+            
+            constructor(
+                private testNameService: TestNameService,
+            ) { }
+            
+            ngOnInit(): void {
+                const name = this.testNameService.getTestName();
+                console.log(name);
+            }
+            }
+
+En el constructor del componente, se inyecta el servicio para poder ser utilizado posteriormente.
+
+En este ejemplo, estamos llamando en el ngOnInit() el método getTestName() del servicio para obtener el valor de una variable e imprimirla por consola.
+
+De esta manera, puedes tener tu lógica de negocio en un servicio e importar este en N componentes, o incluso en otros servicios y acceder a sus métodos y propiedades.

@@ -1,0 +1,91 @@
+Uso de Outputs
+
+Para pasar información al padre necesitamos dos modulos Output y EventEmitter, lo haremos a traves de un evento creado por nosotros imgLoaded:
+
+            import { Component, OnInit, Input, Output, EventEmitter } from ‘@angular/core’;
+
+            @Output() loaded = new EventEmitter<string>();
+            imgLoaded(){
+                console.log(‘log hijo’)
+                this.loaded.emit(‘ejemplo string del hijo a padre’);
+            }
+
+Fijate como usa this.loaded.emit eso es lo que vamos a pasar del hijo al padre
+Aqui lo usamos, loaded es un evento nativo de img:
+
+            <imgwidth=“200” (load)=“imgLoaded()” (error)=“imgError()” [src]=“img” *ngIf=“img;elseelseImg”>
+
+En el componente padre lo recibimos:
+            <app-img (loaded)=“onLoaded($event)” [img]=“imgParent”></app-img>
+
+Ese evento loaded tambien es nativo de img, por convencion se utiliza $ para eventos:
+
+            onLoaded(img:string){
+            console.log(‘log padre’, img)
+            }
+
+
+
+
+
+Uso de Outputs
+Así como el decorador @Input permite el envío de información desde un componente padre hacia un componente hijo, el uso de @Outputs permite lo contrario.
+
+Comunicación hijo a padre
+A partir de la emisión de un evento, el decorador @Output() permite enviar mensajes desde un componente hijo hacia el padre.
+
+Envío del mensaje
+Para esto, se hace uso de la clase EventEmitter importándola desde @angular/core, para crear en tu componente una propiedad emisora de eventos.
+
+            import { Component, Output, EventEmitter } from '@angular/core';
+
+            @Component({
+            selector: 'app-test-name',
+            templateUrl: './test-name.component.html',
+            styleUrls: ['./test-name.component.less']
+            })
+            export class TestNameComponent {
+
+            @Output() message = new EventEmitter<string>();
+
+            constructor() { }
+            }
+
+
+Decorando la propiedad con el @Output() y creando una instancia de EventEmitter podrás emitir un evento de la siguiente manera:
+
+            ...
+            emitirEvento() {
+                this.message.emit('Hola soy Platzi');
+            }
+
+
+Llamando al método emit() de la instancia EventEmitter, se enviará el valor al componente padre que se encuentre escuchando el evento.
+
+Recepción del mensaje
+Desde el componente padre, inicializa el componente hijo de la siguiente manera:
+
+            <app-test-name>
+                (message)="recibirMensaje($event)"
+            </app-test-name>
+
+Se “bindea” la propiedad emisora de eventos con () y se le pasa una función que se ejecutará cada vez que emita un evento.
+Y en el componente padre:
+
+            import { Component } from '@angular/core';
+
+            @Component({
+            selector: 'app-father',
+            templateUrl: './father.component.html',
+            styleUrls: ['./father.component.less']
+            })
+            export class FatherComponent {
+
+            constructor() { }
+            
+            recibirMensaje(event: Event) {
+                console.log(event);
+            }
+            }
+
+La función recibirMensaje() posee un parámetro del tipo Event que contendrá el mensaje del componente hijo.
